@@ -27,7 +27,9 @@ public class MovingObject : MonoBehaviour
         Vector2 start = new Vector2(this.gameObject.transform.position.x + (vector.x * moveSpeed * walkCount), 
                                     this.gameObject.transform.position.y + (vector.y * moveSpeed * walkCount));
         //만약, 게임오브젝트의 위치에서 linecast를 한다면 캐릭터끼리 겹쳤을 때 빠져나갈 수 없다
-        Vector2 end = start + new Vector2(vector.x * moveSpeed, vector.y * moveSpeed);
+
+        Vector2 end = new Vector2(this.gameObject.transform.position.x, this.gameObject.transform.position.y);
+        // Vector2 end = start + new Vector2(vector.x * moveSpeed, vector.y * moveSpeed);
 
         theBC.enabled = false;
         hit = Physics2D.Linecast(start, end, layerMask);
