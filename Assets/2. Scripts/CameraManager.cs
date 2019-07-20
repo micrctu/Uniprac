@@ -44,6 +44,14 @@ public class CameraManager : MonoBehaviour
         minBound = bound.bounds.min;
     }
 
+
+    public void SetBound(BoxCollider2D bc)
+    {
+        bound = bc;
+        maxBound = bound.bounds.max;
+        minBound = bound.bounds.min;
+    }
+
     // Update is called once per frame
     void Update()
     {
