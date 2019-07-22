@@ -8,8 +8,8 @@ public class Sound
     public string name;
     public AudioClip clip;
 
-    private float volume;
-    private bool loop;
+    public float volume;
+    public bool loop;
 
     private AudioSource source;
 
@@ -76,9 +76,53 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Play(string soundName)
     {
-        
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            if(sounds[i].name == soundName)
+            {
+                sounds[i].Play();
+                break;
+            }
+        }
     }
+
+    public void Stop(string soundName)
+    {
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            if (sounds[i].name == soundName)
+            {
+                sounds[i].Stop();
+                break;
+            }
+        }
+    }
+
+    public void SetVolume(string soundName, float vol)
+    {
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            if (sounds[i].name == soundName)
+            {
+                sounds[i].SetVolume(vol);
+                break;
+            }
+        }
+    }
+
+    public void SetLoop(string soundName, bool loop)
+    {
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            if (sounds[i].name == soundName)
+            {
+                sounds[i].SetLoop(loop);
+                break;
+            }
+        }
+    }
+
+
 }

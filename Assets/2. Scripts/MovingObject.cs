@@ -17,6 +17,7 @@ public class MovingObject : MonoBehaviour
 
     protected BoxCollider2D theBC;
     protected Animator theAnim;
+    protected AudioManager theAudio;
 
     protected Vector3 vector;
     

@@ -13,6 +13,7 @@ public class PlayerManager : MovingObject
     private bool canMove = true; //이동 시 마다 일정 단위로 이동 보장을 위한 flag 
     private bool attacking = false;
 
+    public string footStepMusic1, footStepMusic2, footStepMusic3, footStepMusic4;
 
     private void Awake()
     {
@@ -56,6 +57,23 @@ public class PlayerManager : MovingObject
             theAnim.SetFloat("DirY", vector.y);
             theAnim.SetBool("Walking", true);
 
+            int temp = Random.Range(1, 5);
+            switch(temp)
+            {
+                case 1:
+                    theAudio.Play(footStepMusic1);
+                    break;
+                case 2:
+                    theAudio.Play(footStepMusic2);
+                    break;
+                case 3:
+                    theAudio.Play(footStepMusic3);
+                    break;
+                case 4:
+                    theAudio.Play(footStepMusic4);
+                    break;
+            }
+
             while (currentWalkCount < walkCount)
             {
                 this.transform.Translate(vector.x * (moveSpeed + applyRunSpeed), vector.y * (moveSpeed + applyRunSpeed), vector.z);
@@ -69,7 +87,6 @@ public class PlayerManager : MovingObject
         }
         canMove = true;
         theAnim.SetBool("Walking", false);
-
     }
 
     // Start is called before the first frame update
@@ -77,6 +94,7 @@ public class PlayerManager : MovingObject
     {
         theBC = GetComponent<BoxCollider2D>();
         theAnim = GetComponent<Animator>();
+        theAudio = FindObjectOfType<AudioManager>();
     }
 
     // Update is called once per frame
