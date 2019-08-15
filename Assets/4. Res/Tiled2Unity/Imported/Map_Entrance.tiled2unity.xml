@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <!--Tiled2Unity generated xml data-->
 <!--Do not modify by hand-->
-<!--Last exported: 2019-07-21 오전 12:07:13-->
+<!--Last exported: 2019-08-15 오후 3:59:05-->
 <Tiled2Unity version="1.0.13.2">
   <AssignMaterial mesh="Map_Entrance_mesh_0001" material="School_A5" />
   <AssignMaterial mesh="Map_Entrance_mesh_0002" material="Forest_A5" />
@@ -33,6 +33,10 @@
       <GameObject name="RectangleObject" x="0" y="2" rotation="0">
         <RectangleObjectComponent tmx-object-id="8" tmx-object-name="" tmx-object-type="" tmx-object-x="0" tmx-object-y="-2" tmx-object-width="374" tmx-object-height="572" tmx-object-rotation="0" />
         <BoxCollider2D width="374" height="572" />
+      </GameObject>
+      <GameObject name="RectangleObject" x="378.834" y="1" rotation="0">
+        <RectangleObjectComponent tmx-object-id="13" tmx-object-name="" tmx-object-type="" tmx-object-x="378.834" tmx-object-y="-1" tmx-object-width="108.333" tmx-object-height="134" tmx-object-rotation="0" />
+        <BoxCollider2D width="108.333" height="134" />
       </GameObject>
       <GameObject name="RectangleObject" x="492" y="-2" rotation="0" layer="NoPassing">
         <RectangleObjectComponent tmx-object-id="9" tmx-object-name="" tmx-object-type="" tmx-object-x="492" tmx-object-y="2" tmx-object-width="372" tmx-object-height="564" tmx-object-rotation="0" />

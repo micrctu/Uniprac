@@ -10,10 +10,10 @@ public class PlayerManager : MovingObject
     private float input_Y;
 
     public bool notMove = false; //외부에서 플레이어 이동관련 제약을 걸때 사용
-    private bool canMove = true; //이동 시 마다 일정 단위로 이동 보장을 위한 flag 
     private bool attacking = false;
 
     public string footStepMusic1, footStepMusic2, footStepMusic3, footStepMusic4;
+    public string currentMapName;
 
     private void Awake()
     {
@@ -74,12 +74,19 @@ public class PlayerManager : MovingObject
                     break;
             }
 
+            theBC.offset = new Vector2(vector.x * moveSpeed * walkCount, vector.y * moveSpeed * walkCount);
+            //움직이기 전에 boxCollider 위치를 먼저 옮겨서 다른 이동과 겹쳐지는 것을 방지
+
             while (currentWalkCount < walkCount)
             {
-                this.transform.Translate(vector.x * (moveSpeed + applyRunSpeed), vector.y * (moveSpeed + applyRunSpeed), vector.z);
+                this.transform.Translate(vector.x * (moveSpeed + applyRunSpeed), vector.y * (moveSpeed + applyRunSpeed), 0);
                 currentWalkCount++;
                 if (applyRun)
                     currentWalkCount++; //즉, runSpeed 값은 moveSpeed 값과 같게 설정해야 함(즉, 달릴때 두배의 속력 적용)
+
+                if (currentWalkCount == 12)
+                    theBC.offset = Vector2.zero;
+
                 yield return new WaitForSeconds(0.002f);
             }
             input_X = Input.GetAxisRaw("Horizontal");
