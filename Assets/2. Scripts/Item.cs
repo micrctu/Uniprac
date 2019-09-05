@@ -43,4 +43,22 @@ public class Item
         //Resources 폴더 내 해당 경로에 있는 asset 불러오기, typeof(sprite) 즉, sprite 타입으로 가져오고 형변환
         //이는 아이콘 그림 파일이름을 미리 itemID로 바꿔놨기에 가능
     }
+
+    public Item(Item _item, int _itemCount = 1)//생성자
+    {
+        itemID = _item.itemID;
+        itemName = _item.itemName;
+        itemDesc = _item.itemDesc;
+        itemType = _item.itemType;
+        itemCount = _itemCount;
+
+        atk = _item.atk;
+        def = _item.def;
+        recover_hp = _item.recover_hp;
+        recover_mp = _item.recover_mp;
+
+        itemIcon = Resources.Load("ItemIcon/" + itemID.ToString(), typeof(Sprite)) as Sprite;
+        //Resources 폴더 내 해당 경로에 있는 asset 불러오기, typeof(sprite) 즉, sprite 타입으로 가져오고 형변환
+        //이는 아이콘 그림 파일이름을 미리 itemID로 바꿔놨기에 가능
+    }
 }

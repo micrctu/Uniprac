@@ -7,6 +7,7 @@ public class InputField : MonoBehaviour
 {
     private FadeManager theFade;
     private OrderManager theOrder;
+    private Inventory theInven;
     private PlayerManager thePlayer;
     public Canvas canvas;
     public Text text;
@@ -19,6 +20,7 @@ public class InputField : MonoBehaviour
         theFade = FindObjectOfType<FadeManager>();
         theOrder = FindObjectOfType<OrderManager>();
         thePlayer = FindObjectOfType<PlayerManager>();
+        theInven = FindObjectOfType<Inventory>();
     }
 
     // Update is called once per frame
@@ -28,6 +30,8 @@ public class InputField : MonoBehaviour
         {
             flag = true;
             theOrder.SetPlayerNotMove();
+            theInven.keyInputEnabled = false;
+
             theFade.FadeOut(0.1f);
             canvas.sortingOrder = 3; //인풋필드가 포함된 캔버스의 sorting Layer 상 순위를 fadeout에 사용된 이미지보다 높이는 것
         }
@@ -38,6 +42,7 @@ public class InputField : MonoBehaviour
             canvas.sortingOrder = 1;//원래대로 복구
             theFade.FadeIn(0.01f);
             theOrder.SetPlayerMove();
+            theInven.keyInputEnabled = true;
             Destroy(this.gameObject);
         }
     }
