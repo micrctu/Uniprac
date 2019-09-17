@@ -67,6 +67,7 @@ public class Inventory : MonoBehaviour
     private void StartInventory()
     {
         OrderManager.instance.SetPlayerNotMove();
+        Equipment.instance.keyInputEnabled = false;
 
         go.SetActive(true);
         currentTab = 0;
@@ -247,6 +248,7 @@ public class Inventory : MonoBehaviour
         
         go.SetActive(false);
         OrderManager.instance.SetPlayerMove();
+        Equipment.instance.keyInputEnabled = true;
     }
 
     public void AddItemtoInventory(Item _item)
@@ -269,6 +271,8 @@ public class Inventory : MonoBehaviour
 
     private IEnumerator OOC_Coroutine(string _Ok, string _Cancel)
     {
+        yield return new WaitForSeconds(0.01f); //z키 인풋 겹쳐서 실행되는 것 방지를 위함
+
         keyInputEnabled = false;
         theOOC.ShowOOC(_Ok, _Cancel);
 
@@ -276,14 +280,98 @@ public class Inventory : MonoBehaviour
 
         if(theOOC.GetResult())
         {
-            Debug.Log("사용 선택");
-            ItemManager.instance.UseItem(inventoryTabList[(page - 1) * MAX_SLOTS_IN_PAGE + currentSlot].itemID);
-        }
-        else
-        {
-            Debug.Log("취소 선택");
-        }
+            if(currentTab == 0)
+            {
+                int itemIndex = (page - 1) * MAX_SLOTS_IN_PAGE + currentSlot;
 
+                ItemManager.instance.UseItem(inventoryTabList[itemIndex].itemID);
+
+                if (inventoryTabList[itemIndex].itemCount > 1)
+                {
+                    for (int i = 0; i < inventoryItemList.Count; i++)
+                    {
+                        if (inventoryItemList[i].itemID == inventoryTabList[itemIndex].itemID)
+                        {
+                            inventoryItemList[i].itemCount--;
+                            break;
+                        }
+                    }
+                    ShowSlots(currentSlot);
+                }
+                else if (inventoryTabList[itemIndex].itemCount == 1)
+                {
+                    for (int i = 0; i < inventoryItemList.Count; i++)
+                    {
+                        if (inventoryItemList[i].itemID == inventoryTabList[itemIndex].itemID)
+                        {
+                            inventoryItemList.RemoveAt(i);
+                            break;
+                        }
+                    }
+
+                   if((page - 1) * MAX_SLOTS_IN_PAGE + currentSlot == inventoryTabList.Count - 1)
+                   {
+                        if (inventoryTabList.Count % MAX_SLOTS_IN_PAGE == 1 && page > 1)
+                        {
+                            page--;
+                            ShowSlots(MAX_SLOTS_IN_PAGE - 1);
+                        }
+                        else if (inventoryTabList.Count % MAX_SLOTS_IN_PAGE == 1 && page == 1)
+                            ShowSlots();
+                        else
+                            ShowSlots(currentSlot - 1);
+                    }
+                    else
+                    {
+                        ShowSlots(currentSlot);
+                    }
+                }
+            }
+            else if(currentTab == 1)
+            {
+                int inventoryItemListSize = inventoryItemList.Count;
+                int itemIndex = (page - 1) * MAX_SLOTS_IN_PAGE + currentSlot;
+                Equipment.instance.EquipItem(inventoryTabList[itemIndex]);
+
+                int tmp = -1;
+                for (int i = 0; i < inventoryItemList.Count; i++)
+                {
+                    if (inventoryItemList[i].itemType == Item.ItemType.Equip)
+                    {
+                        tmp++;
+                        if(tmp == itemIndex)
+                        {
+                            inventoryItemList.RemoveAt(i);
+                            break;
+                        }
+                    }
+                }
+             
+                if (inventoryItemListSize == inventoryItemList.Count)
+                    ShowSlots(currentSlot);
+                else if (inventoryItemListSize - 1 == inventoryItemList.Count)
+                {
+                    if (inventoryItemList.Count == itemIndex && currentSlot == 0)
+                    {
+                        if (page == 1)
+                            ShowSlots();
+                        else
+                        {
+                            page--;
+                            ShowSlots(MAX_SLOTS_IN_PAGE - 1);
+                        }
+                    }
+                    else if (inventoryItemList.Count == itemIndex && currentSlot != 0)
+                        ShowSlots(currentSlot - 1);
+                    else
+                        ShowSlots(currentSlot);
+                }
+                else
+                    Debug.Log("오류발생");
+
+            }
+            
+        }
         keyInputEnabled = true;
     }
 

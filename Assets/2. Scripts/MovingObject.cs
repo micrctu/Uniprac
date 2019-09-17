@@ -102,12 +102,12 @@ public class MovingObject : MonoBehaviour
 
         theAnim.SetFloat("DirX", vector.x);
         theAnim.SetFloat("DirY", vector.y);
-
-        theBC.offset = new Vector2(vector.x * moveSpeed * walkCount, vector.y * moveSpeed * walkCount);
-        //움직이기 전에 boxCollider 위치를 먼저 옮겨서 다른 이동과 겹쳐지는 것을 방지
-
+        
         if (!CheckCollision())
         {
+            theBC.offset = new Vector2(vector.x * moveSpeed * walkCount, vector.y * moveSpeed * walkCount);
+            //움직이기 전에 boxCollider 위치를 먼저 옮겨서 다른 이동과 겹쳐지는 것을 방지
+
             theAnim.SetBool("Walking", true);
 
             while (currentWalkCount < walkCount)

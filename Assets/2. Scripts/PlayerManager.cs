@@ -15,6 +15,9 @@ public class PlayerManager : MovingObject
     public string footStepMusic1, footStepMusic2, footStepMusic3, footStepMusic4;
     public string currentMapName;
 
+    public float attackDelay;
+    private float remainTime;
+
     private void Awake()
     {
         #region Singleton
@@ -102,12 +105,14 @@ public class PlayerManager : MovingObject
         theBC = GetComponent<BoxCollider2D>();
         theAnim = GetComponent<Animator>();
         theAudio = FindObjectOfType<AudioManager>();
+        remainTime = attackDelay;
+        attacking = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(canMove && !notMove && !attacking)
+        if (canMove && !notMove && !attacking)
         {
             input_X = Input.GetAxisRaw("Horizontal");
             input_Y = Input.GetAxisRaw("Vertical");
@@ -118,6 +123,24 @@ public class PlayerManager : MovingObject
                 StartCoroutine(MoveCoroutine());
             }
         }
-        
+
+        if (attacking)
+        {
+            remainTime -= Time.deltaTime;
+            if(remainTime <= 0f)
+            {
+                remainTime = attackDelay;
+                attacking = false;
+            }
+        }
+
+        else if (!notMove)
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                attacking = true;
+                theAnim.SetTrigger("Attacking");
+            }
+        }
     }
 }
